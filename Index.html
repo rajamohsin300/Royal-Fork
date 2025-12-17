@@ -1,0 +1,836 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Golden Fork | Fine Dining</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&amp;family=Lato:wght@300;400;700&amp;display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- Variables & Reset --- */
+        :root {
+            --primary-gold: #c5a059;
+            --primary-dark: #1a1a1a;
+            --secondary-dark: #2c2c2c;
+            --text-light: #f4f4f4;
+            --text-gray: #a0a0a0;
+            --white: #ffffff;
+            --transition: all 0.3s ease;
+            --shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--primary-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: transparent;
+            color: var(--primary-gold);
+            border: 2px solid var(--primary-gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            background: var(--primary-gold);
+            color: var(--white);
+        }
+
+        .btn-filled {
+            background: var(--primary-gold);
+            color: var(--white);
+        }
+
+        .btn-filled:hover {
+            background: #b08d4b;
+            border-color: #b08d4b;
+        }
+
+        /* --- Navigation --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(26, 26, 26, 0.95);
+            padding: 20px 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .logo i {
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-gold);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1514362545857-3bc16549766b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 80px;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: var(--white);
+            animation: fadeInDown 1s ease;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #ddd;
+            animation: fadeInUp 1s ease 0.3s backwards;
+        }
+
+        .hero-content .highlight {
+            color: var(--primary-gold);
+            font-style: italic;
+        }
+
+        /* --- Menu Section --- */
+        .menu-section {
+            padding: 80px 0;
+            background: var(--primary-dark);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--primary-gold);
+            margin-bottom: 10px;
+        }
+
+        .section-header .divider {
+            height: 3px;
+            width: 60px;
+            background: var(--primary-gold);
+            margin: 0 auto;
+        }
+
+        /* Filter Buttons */
+        .menu-filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 1px solid #444;
+            color: var(--text-gray);
+            padding: 10px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Lato', sans-serif;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary-gold);
+            color: var(--white);
+            border-color: var(--primary-gold);
+        }
+
+        /* Menu Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-item {
+            background: var(--secondary-dark);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            opacity: 0; /* For animation */
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+
+        .menu-img {
+            height: 200px;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .menu-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .menu-item:hover .menu-img img {
+            transform: scale(1.1);
+        }
+
+        .price-tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--primary-gold);
+            color: var(--white);
+            padding: 5px 12px;
+            font-weight: 700;
+            border-radius: 4px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .menu-info {
+            padding: 25px;
+        }
+
+        .menu-info h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--white);
+        }
+
+        .menu-info p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .order-btn {
+            width: 100%;
+            padding: 10px;
+            background: transparent;
+            border: 1px solid #555;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .order-btn:hover {
+            background: var(--primary-gold);
+            border-color: var(--primary-gold);
+            color: var(--white);
+        }
+
+        /* --- About Section --- */
+        .about-section {
+            padding: 100px 0;
+            background: var(--secondary-dark);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            color: var(--primary-gold);
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+            color: #ccc;
+        }
+
+        .about-images {
+            position: relative;
+        }
+
+        .about-img-1 {
+            width: 80%;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            border: 4px solid var(--primary-gold);
+        }
+
+        /* --- Reservation --- */
+        .reservation {
+            padding: 80px 0;
+            background: url('https://images.unsplash.com/photo-1550966871-3ed3c47e2ce2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') center/cover fixed;
+            position: relative;
+        }
+
+        .reservation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+        }
+
+        .reservation-form-container {
+            position: relative;
+            background: rgba(26, 26, 26, 0.9);
+            padding: 50px;
+            max-width: 600px;
+            margin: 0 auto;
+            border-radius: 8px;
+            border: 1px solid var(--primary-gold);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            border: 1px solid #555;
+            color: var(--white);
+            font-family: inherit;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: #111;
+            padding: 50px 0 20px;
+            border-top: 1px solid #333;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h4 {
+            color: var(--primary-gold);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-col p {
+            color: #999;
+            margin-bottom: 10px;
+        }
+
+        .social-links a {
+            color: var(--white);
+            font-size: 1.2rem;
+            margin-right: 15px;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            color: var(--primary-gold);
+        }
+
+        .copyright {
+            text-align: center;
+            border-top: 1px solid #222;
+            padding-top: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* --- Toast Notification --- */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--white);
+            color: var(--primary-dark);
+            padding: 15px 25px;
+            border-radius: 4px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transform: translateY(100px);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 2000;
+            border-left: 5px solid var(--primary-gold);
+        }
+
+        .toast.show {
+            transform: translateY(0);
+        }
+
+        .toast i {
+            color: green;
+            font-size: 1.2rem;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                background: var(--secondary-dark);
+                flex-direction: column;
+                padding: 40px;
+                text-align: center;
+                transition: 0.4s;
+                border-bottom: 2px solid var(--primary-gold);
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .reservation-form-container {
+                padding: 30px;
+            }
+        }
+
+        /* Keyframes */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <div class="logo">
+                <i class="fas fa-utensils"></i> The Golden Fork
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#about">Our Story</a></li>
+                <li><a href="#reservation">Book a Table</a></li>
+            </ul>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="home" class="hero">
+        <div class="container hero-content">
+            <div>
+                <h1>Experience <span class="highlight">Luxury</span> Taste</h1>
+                <p>Authentic flavors crafted with passion and elegance.</p>
+                <a href="#menu" class="btn btn-filled">View Menu</a>
+                <a href="#reservation" class="btn" style="margin-left: 15px;">Book Now</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Menu Section -->
+    <section id="menu" class="menu-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Masterpieces</h2>
+                <div class="divider"></div>
+            </div>
+
+            <div class="menu-filters">
+                <button class="filter-btn active" onclick="filterMenu('all')">All</button>
+                <button class="filter-btn" onclick="filterMenu('starter')">Starters</button>
+                <button class="filter-btn" onclick="filterMenu('main')">Mains</button>
+                <button class="filter-btn" onclick="filterMenu('dessert')">Desserts</button>
+                <button class="filter-btn" onclick="filterMenu('drink')">Drinks</button>
+            </div>
+
+            <div class="menu-grid" id="menuGrid">
+                <!-- Items injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Our Story</h2>
+                    <div class="divider" style="margin: 0 0 20px 0; width: 40px;"></div>
+                    <p>Founded in 1985, The Golden Fork began with a simple mission: to bring the authentic taste of continental fine dining to the heart of the city.</p>
+                    <p>Our chefs use only the freshest, locally-sourced ingredients to create dishes that are as visually stunning as they are delicious. We believe that dining is not just about eating; it is an experience to be cherished.</p>
+                    <a href="#reservation" class="btn">Read More</a>
+                </div>
+                <div class="about-images">
+                    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1950&amp;q=80" alt="Chef plating food" class="about-img-1">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reservation Section -->
+    <section id="reservation" class="reservation">
+        <div class="container">
+            <div class="reservation-form-container">
+                <div class="section-header">
+                    <h2>Book A Table</h2>
+                    <div class="divider"></div>
+                </div>
+                <form id="bookingForm" onsubmit="handleBooking(event)">
+                    <div class="form-group">
+                        <input type="text" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Email Address" required>
+                    </div>
+                    <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <input type="date" required>
+                        <select>
+                            <option>2 Persons</option>
+                            <option>3 Persons</option>
+                            <option>4 Persons</option>
+                            <option>5+ Persons</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-filled" style="width: 100%;">Confirm Booking</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>The Golden Fork</h4>
+                    <p>Experience the best dining in the city with an ambiance of luxury and taste.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Opening Hours</h4>
+                    <p>Mon-Fri: 10:00 AM - 11:00 PM</p>
+                    <p>Sat-Sun: 09:00 AM - 12:00 AM</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Us</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Culinary Ave, Food City</p>
+                    <p><i class="fas fa-phone"></i> (555) 123-4567</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                © 2023 The Golden Fork. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Item added to cart!</span>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Menu Data
+        const menuItems = [
+            {
+                id: 1,
+                title: "Truffle Arancini",
+                category: "starter",
+                price: "$14",
+                img: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=800&q=80",
+                desc: "Crispy risotto balls infused with black truffle, served with garlic aioli."
+            },
+            {
+                id: 2,
+                title: "Wagyu Beef Burger",
+                category: "main",
+                price: "$28",
+                img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80",
+                desc: "Premium Wagyu beef patty, brioche bun, aged cheddar, and caramelized onions."
+            },
+            {
+                id: 3,
+                title: "Grilled Salmon",
+                category: "main",
+                price: "$32",
+                img: "https://images.unsplash.com/photo-1467003909585-2f8a7270028d?auto=format&fit=crop&w=800&q=80",
+                desc: "Fresh Atlantic salmon grilled to perfection, served with asparagus and lemon butter."
+            },
+            {
+                id: 4,
+                title: "Chocolate Lava Cake",
+                category: "dessert",
+                price: "$12",
+                img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=800&q=80",
+                desc: "Rich dark chocolate cake with a molten center, paired with vanilla bean ice cream."
+            },
+            {
+                id: 5,
+                title: "Classic Mojito",
+                category: "drink",
+                price: "$10",
+                img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=800&q=80",
+                desc: "White rum, sugar, lime juice, soda water, and fresh mint."
+            },
+            {
+                id: 6,
+                title: "Caesar Salad",
+                category: "starter",
+                price: "$16",
+                img: "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&w=800&q=80",
+                desc: "Crisp romaine lettuce, parmesan cheese, croutons, and house-made dressing."
+            },
+            {
+                id: 7,
+                title: "Filet Mignon",
+                category: "main",
+                price: "$45",
+                img: "https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=800&q=80",
+                desc: "Tender filet mignon steak cooked to your liking, served with red wine reduction."
+            },
+            {
+                id: 8,
+                title: "Tiramisu",
+                category: "dessert",
+                price: "$14",
+                img: "https://images.unsplash.com/photo-1571875257727-256c39da42af?auto=format&fit=crop&w=800&q=80",
+                desc: "Coffee-flavoured Italian dessert. Ladyfingers dipped in coffee, layered with mascarpone."
+            }
+        ];
+
+        // Initialize Menu
+        const menuGrid = document.getElementById('menuGrid');
+        
+        function renderMenu(category) {
+            menuGrid.innerHTML = '';
+            
+            const filteredItems = category === 'all' 
+                ? menuItems 
+                : menuItems.filter(item => item.category === category);
+
+            filteredItems.forEach(item => {
+                const itemHTML = `
+                    <article class="menu-item">
+                        <div class="menu-img">
+                            <img src="${item.img}" alt="${item.title}">
+                            <div class="price-tag">${item.price}</div>
+                        </div>
+                        <div class="menu-info">
+                            <h3>${item.title}</h3>
+                            <p>${item.desc}</p>
+                            <button class="order-btn" onclick="addToOrder('${item.title}')">
+                                <i class="fas fa-shopping-basket"></i> Add to Order
+                            </button>
+                        </div>
+                    </article>
+                `;
+                menuGrid.innerHTML += itemHTML;
+            });
+        }
+
+        // Filter Logic
+        function filterMenu(category) {
+            // Update buttons
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Render items
+            renderMenu(category);
+        }
+
+        // Initial Render
+        renderMenu('all');
+
+        // Navigation Toggle (Mobile)
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        // Add to Order / Toast Notification
+        function addToOrder(itemName) {
+            const toast = document.getElementById('toast');
+            const message = document.getElementById('toastMessage');
+            
+            message.innerText = `${itemName} added to your order!`;
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Booking Form Handler
+        function handleBooking(e) {
+            e.preventDefault();
+            const toast = document.getElementById('toast');
+            const message = document.getElementById('toastMessage');
+            
+            message.innerText = "Table request sent successfully!";
+            toast.classList.add('show');
+            
+            e.target.reset();
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('active');
+            });
+        });
+
+    </script>
+
+</body></html>
+
